@@ -9,7 +9,7 @@ import java.util.Random;
  * Sie verwendet eine einfache Zufallslogik, um die PIN basierend auf einem vorgegebenen Alphabet zu generieren.
  * Die Klasse hält auch die Anzahl der Versuche und die Zeit, die für das Erraten benötigt wurde.
  */
-public class EfficientWordGuesser {
+public class BruteForceAttacke {
     // Konstante für das verwendete Alphabet. Da es als 'final' deklariert ist, ist es unveränderlich nach der Zuweisung.
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789";
     // Zielwort, das erraten werden soll. Es wird durch den Konstruktor final gesetzt und kann nicht geändert werden.
@@ -27,7 +27,7 @@ public class EfficientWordGuesser {
      *
      * @param targetWord Das zu erratende Zielwort.
      */
-    public EfficientWordGuesser(String targetWord) {
+    public BruteForceAttacke(String targetWord) {
         this.targetWord = targetWord;
         this.startTime = System.currentTimeMillis();
     }
