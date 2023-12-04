@@ -8,15 +8,21 @@ public class LoginApplication {
 
         System.out.println("Bitte geben Sie Ihren Namen ein:");
         String name = scanner.nextLine();
+
+        User user = userDatabase.getUser(name);
+        if (user == null) {
+            System.out.println("Benutzer nicht gefunden.");
+            return;
+        }
+
+        EfficientWordGuesser guesser = new EfficientWordGuesser();
+        guesser.setTargetWord(user.getPin()); // Setzt das Zielwort (den PIN) für den EfficientWordGuesser
+
         boolean loginSuccess = false;
 
         while (!loginSuccess) {
-            System.out.println("Bitte geben Sie Ihren PIN ein:");
-            String pin = scanner.nextLine();
-            loginSuccess = loginService.login(name, pin);
-            if (!loginSuccess) {
-                System.out.println("Falscher PIN. Bitte versuchen Sie es erneut.");
-            }
+            String guessedPin = guesser.guessWord();
+            loginSuccess = loginService.login(name, guessedPin);
         }
 
         System.out.println("Anmeldung erfolgreich!");

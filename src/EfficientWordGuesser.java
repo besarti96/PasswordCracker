@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class EfficientWordGuesser {
-    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz ";
+    private static final String ALPHABET = "0123456789"; // Angenommen, der PIN besteht aus Buchstaben und Zahlen
     private String targetWord;
     private Random random;
 
@@ -13,38 +13,26 @@ public class EfficientWordGuesser {
         this.targetWord = targetWord;
     }
 
-    public void guessWord() {
-        long startTime = System.currentTimeMillis();
+    public String guessWord() {
         StringBuilder generatedString = new StringBuilder();
         boolean wordFound = false;
-        int charCount = 0;
-        final int displayLength = 10; // Maximale Anzeigelänge
 
         while (!wordFound) {
             char randomChar = ALPHABET.charAt(random.nextInt(ALPHABET.length()));
             generatedString.append(randomChar);
-            charCount++;
 
-            if (generatedString.length() > displayLength) {
-                generatedString.delete(0, generatedString.length() - displayLength);
+            if (generatedString.length() > targetWord.length()) {
+                generatedString.delete(0, generatedString.length() - targetWord.length());
             }
 
-            System.out.print("\r" + generatedString); // Zeigt die letzten 10 Zeichen an
+            System.out.print("\r" + generatedString); // Zeigt den aktuellen Versuch an
 
-            if (generatedString.length() >= targetWord.length() &&
-                    generatedString.substring(generatedString.length() - targetWord.length()).equals(targetWord)) {
+            if (generatedString.toString().equals(targetWord)) {
                 wordFound = true;
             }
         }
 
-        long endTime = System.currentTimeMillis();
-        long durationMillis = endTime - startTime;
-        long durationSeconds = durationMillis / 1000;
-        long minutes = durationSeconds / 60;
-        long seconds = durationSeconds % 60;
-
-        System.out.println("\nWORT GEFUNDEN: " + targetWord);
-        System.out.println("ZEIT: " + minutes + " Minuten und " + seconds + " Sekunden");
-        System.out.println("ZEICHENANZAHL: " + charCount);
+        System.out.println("\nPIN gefunden: " + targetWord);
+        return generatedString.toString();
     }
 }
