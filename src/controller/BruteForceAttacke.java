@@ -5,7 +5,7 @@ import java.util.Queue;
 import java.util.Random;
 
 /**
- * Diese Klasse ist dafür verantwortlich, ein Password (in diesem Fall eine PIN) zu erraten.
+ * Diese Klasse ist dafür verantwortlich, ein Wort (in diesem Fall eine PIN) zu erraten.
  * Sie verwendet eine einfache Zufallslogik, um die PIN basierend auf einem vorgegebenen Alphabet zu generieren.
  * Die Klasse hält auch die Anzahl der Versuche und die Zeit, die für das Erraten benötigt wurde.
  */
@@ -86,10 +86,7 @@ public class BruteForceAttacke {
      * @param attempts    Die Anzahl der Versuche.
      */
     private void printStatistics(long elapsedTime, int attempts) {
-        int seconds = (int) (elapsedTime / 1000) % 60 ;
-        int minutes = (int) ((elapsedTime / (1000*60)) % 60);
-
         System.out.println("\nAnzahl der Versuche: " + attempts);
-        System.out.println("Verstrichene Zeit: " + minutes + " Minuten und " + seconds + " Sekunden");
+        System.out.println("Verstrichene Zeit: " + elapsedTime + "ms");
     }
 }
