@@ -1,15 +1,36 @@
+import controller.EfficientWordGuesser;
+import controller.LoginService;
+import model.User;
+import model.UserDatabase;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Geben Sie das Zielwort ein: ");
-        String inputWord = scanner.nextLine();
+        UserDatabase userDatabase = new UserDatabase("src/users.csv");
+        LoginService loginService = new LoginService(userDatabase);
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Bitte geben Sie Ihren Namen ein:");
+        String name = sc.nextLine();
+
+        User user = userDatabase.getUser(name);
+        if (user == null) {
+            System.out.println("Benutzer nicht gefunden.");
+            return;
+        }
 
         EfficientWordGuesser guesser = new EfficientWordGuesser();
-        guesser.setTargetWord(inputWord);
-        guesser.guessWord();
+        guesser.setTargetWord(user.getPin()); // Setzt das Zielwort (den PIN) für den controller.EfficientWordGuesser
 
-        scanner.close();
+        boolean loginSuccess = false;
+
+        while (!loginSuccess) {
+            String guessedPin = guesser.guessWord();
+            loginSuccess = loginService.login(name, guessedPin);
+        }
+
+        System.out.println("Anmeldung erfolgreich!");
+        sc.close();
     }
 }

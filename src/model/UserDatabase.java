@@ -1,3 +1,7 @@
+package model;
+
+import model.User;
+
 import java.io.*;
 import java.util.*;
 

@@ -1,3 +1,8 @@
+package controller;
+
+import model.User;
+import model.UserDatabase;
+
 public class LoginService {
     private UserDatabase userDatabase;
 
