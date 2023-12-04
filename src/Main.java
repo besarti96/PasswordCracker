@@ -20,8 +20,9 @@ public class Main {
             return;
         }
 
-        EfficientWordGuesser guesser = new EfficientWordGuesser();
-        guesser.setTargetWord(user.getPin()); // Setzt das Zielwort (den PIN) für den controller.EfficientWordGuesser
+        // Die Zeile, die guesser.setTargetWord(user.getPin()) verwendet hat, wird entfernt
+        // und der Konstruktor von EfficientWordGuesser wird nun mit dem Zielwort aufgerufen.
+        EfficientWordGuesser guesser = new EfficientWordGuesser(user.getPin());
 
         boolean loginSuccess = false;
 
