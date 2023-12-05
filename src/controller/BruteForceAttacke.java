@@ -86,7 +86,11 @@ public class BruteForceAttacke {
      * @param attempts    Die Anzahl der Versuche.
      */
     private void printStatistics(long elapsedTime, int attempts) {
+        long seconds = (elapsedTime / 1000) % 60;
+        long minutes = (elapsedTime / (1000 * 60)) % 60;
+
         System.out.println("\nAnzahl der Versuche: " + attempts);
-        System.out.println("Verstrichene Zeit: " + elapsedTime + "ms");
+        System.out.println("Verstrichene Zeit: " + minutes + " Minuten und " + seconds + " Sekunden");
     }
+
 }
