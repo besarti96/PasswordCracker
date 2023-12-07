@@ -1,5 +1,7 @@
 package controller;
 
+import EigenKlasse.BruteForceAttacke;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PasswordGuesserMultithread implements Runnable {
