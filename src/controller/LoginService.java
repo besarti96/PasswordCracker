@@ -7,6 +7,7 @@ public class LoginService {
     private UserDatabase userDatabase;
 
     public LoginService(UserDatabase userDatabase) {
+
         this.userDatabase = userDatabase;
     }
 

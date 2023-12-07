@@ -5,17 +5,16 @@ import java.util.Random;
 /**
  * Klasse zur Durchführung einer Brute-Force-Attacke zum Erraten eines Zielwortes.
  * Verwendet zufällig generierte Zeichenfolgen, um das Zielwort zu erraten.
- * @Einstieg was macht diese klasse
  */
 public class BruteForceAttacke {
-    // Zeichen für die Generierung der Zeichenfolgen.
-    private final String Zeichen = "abcdefghijklmnopqrstuvwxyz0123456789";
+    /* Zeichen fuer die Generierung der Zeichenfolgen. */
+    private static final String Zeichen = "abcdefghijklmnopqrstuvwxyz0123456789";
 
     // Das zu erratende Zielwort.
     private final String targetWord;
 
-    // Hilfsobjekt zur Erzeugung zufälliger Werte.
-    private final Random random = new Random();
+    // Hilfsobjekt zur Erzeugung zufälliger Werte wird im Konstruktor initialisiert.
+    private final Random random;
 
     // Startzeit der Attacke für die Zeitmessung.
     private final long startTime;
@@ -25,13 +24,15 @@ public class BruteForceAttacke {
 
     /**
      * Konstruktor zur Initialisierung der Brute-Force-Attacke.
-     * Setzt das Zielwort und die Startzeit.
+     * Setzt das Zielwort Startzeit und das hilfsobjekt random.
      *
      * @param targetWord Das zu erratende Zielwort.
      */
     public BruteForceAttacke(String targetWord) {
         this.targetWord = targetWord;
         this.startTime = System.currentTimeMillis();
+        this.random = new Random(); // Initialisiert den Random-Generator.
+
     }
 
     /**
@@ -49,13 +50,13 @@ public class BruteForceAttacke {
 
         while (true) {
             // Erzeugt eine zufällige Zeichenfolge der definierten Länge.
-            int pinLength = random.nextInt(maxPinLength - minPinLength + 1) + minPinLength;
+            final int pinLength = random.nextInt(maxPinLength - minPinLength + 1) + minPinLength;
             //StringBuilder für den Aufbau der PIN.
             StringBuilder generatedString = new StringBuilder();
 
             //Eine Schleife, die für jede Stelle der PIN ein zufälliges Zeichen aus dem ALPHABET wählt und an den StringBuilder anhängt.
             for (int i = 0; i < pinLength; i++) {
-                char randomChar = Zeichen.charAt(random.nextInt(Zeichen.length()));
+                final char randomChar = Zeichen.charAt(random.nextInt(Zeichen.length()));
                 generatedString.append(randomChar);
             }
 
@@ -69,31 +70,17 @@ public class BruteForceAttacke {
 
             // Überprüft, ob das Zielwort erraten wurde.
             if (generatedString.toString().equals(targetWord)) {
-                // Berechnet die benötigte Zeit und gibt die Statistiken aus.
                 long endTime = System.currentTimeMillis();
-                printStatistics(endTime - startTime, attemptCount);
-                return generatedString.toString();
+                return generatedString + ";" + (endTime - startTime) + ";" + attemptCount;
+            }
             }
         }
-    }
 
-    //Methode 2 um die Konsole zzu LKöschen cleanConsole();
+
+    //Methode 2 um die Konsole zzu Löschen cleanConsole();
     private void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    /**
-     * Zeigt Statistiken über den Erratungsprozess an.
-     *
-     * @param EndtimeMinusStarttime Die verstrichene Zeit in Millisekunden.
-     * @param attempts    Die Anzahl der Versuche.
-     */
-    private void printStatistics(long EndtimeMinusStarttime, int attempts) {
-        long seconds = (EndtimeMinusStarttime / 1000) % 60;
-        long minutes = (EndtimeMinusStarttime / (1000 * 60)) % 60;
-
-        System.out.println("\nAnzahl der Versuche: " + attempts);
-        System.out.println("Verstrichene Zeit: " + minutes + " Minuten und " + seconds + " Sekunden");
-    }
 }

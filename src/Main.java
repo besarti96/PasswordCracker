@@ -7,6 +7,12 @@ import java.util.Scanner;
 
 public class Main {
 
+    /**
+     * Hauptmethode, die den Startpunkt der Anwendung darstellt.
+     * Initialisiert die Datenbank, den Login-Service und verarbeitet die Benutzerinteraktion.
+     *
+     * @param args Argumente der Kommandozeile, die nicht verwendet werden.
+     */
     public static void main(String[] args) {
         // Initialisierung der User-Datenbank und des Login-Services.
         UserDatabase userDatabase = new UserDatabase("src/users.csv");
@@ -31,6 +37,14 @@ public class Main {
         sc.close();
     }
 
+    /**
+     * Methode zur Durchführung des normalen Login-Prozesses.
+     * Fragt den Benutzer nach Benutzername und PIN und führt eine Login-Überprüfung durch.
+     *
+     * @param sc Der Scanner zur Erfassung der Benutzereingaben.
+     * @param loginService Der Service, der die Login-Funktionalität bereitstellt.
+     */
+
     // Methode für den normalen Login-Prozess.
     private static void normalLoginProcess(Scanner sc, LoginService loginService) {
         System.out.println("Bitte geben Sie Ihren Namen ein:");
@@ -47,7 +61,14 @@ public class Main {
         }
     }
 
-    // Methode für den Prozess des Passwort-Knackens.
+    /**
+     * Methode für den Prozess des Passwort-Knackens.
+     * Leitet einen Brute-Force-Angriff ein und zeigt die Ergebnisse an.
+     *
+     * @param sc Der Scanner zur Erfassung der Benutzereingaben.
+     * @param userDatabase Die Datenbank mit Benutzerinformationen.
+     * @param loginService Der Service, der die Login-Funktionalität bereitstellt.
+     */
     private static void passwordCrackerProcess(Scanner sc, UserDatabase userDatabase, LoginService loginService) {
         System.out.println("Bitte geben Sie den Namen des zu knackenden Benutzers ein:");
         String name = sc.nextLine();
@@ -61,14 +82,30 @@ public class Main {
 
         // Initialisiert den Brute-Force-Angriff mit der PIN des Benutzers.
         BruteForceAttacke guesser = new BruteForceAttacke(user.getPin());
-        boolean loginSuccess = false;
+        String result = guesser.guessWord();
 
-        // Führt den Brute-Force-Angriff durch, bis der Login erfolgreich ist.
-        while (!loginSuccess) {
-            String guessedPin = guesser.guessWord();
-            loginSuccess = loginService.login(name, guessedPin);
-        }
+        // Trenne die Rückgabeinformationen
+        String[] parts = result.split(";");
+        String guessedPin = parts[0];
+        long elapsedTime = Long.parseLong(parts[1]);
+        int attempts = Integer.parseInt(parts[2]);
 
-        System.out.println("Passwort-Knacker erfolgreich!");
+        // Zeige die Statistiken an
+        System.out.println("Erratene PIN: " + guessedPin);
+        printStatistics(elapsedTime, attempts);
     }
-}
+
+    /**
+     * Zeigt Statistiken über den Erratungsprozess an.
+     *
+     * @param elapsedTime Die verstrichene Zeit in Millisekunden.
+     * @param attempts    Die Anzahl der Versuche.
+     */
+    private static void printStatistics(long elapsedTime, int attempts) {
+        long seconds = (elapsedTime / 1000) % 60;
+        long minutes = (elapsedTime / (1000 * 60)) % 60;
+
+        System.out.println("Anzahl der Versuche: " + attempts);
+        System.out.println("Verstrichene Zeit: " + minutes + " Minuten und " + seconds + " Sekunden");
+    }
+    }
